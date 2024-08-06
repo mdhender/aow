@@ -10,14 +10,14 @@ import (
 )
 
 var (
-	version = semver.Version{Major: 0, Minor: 0, Patch: 3}
+	version = semver.Version{Major: 0, Minor: 0, Patch: 4}
 )
 
 // Generator is the structure that manages the settings for the generator.
 type Generator struct {
 	prng    PRNG
 	catalog Catalog_e // the type of catalog used to generate the star systems
-	pm      PopulationModel
+	pm      PopulationModel_t
 }
 
 type Catalog_e int
