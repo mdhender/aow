@@ -9,7 +9,7 @@ import (
 )
 
 func TestGenerator_RollD6(t *testing.T) {
-	g, err := aow.New(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
+	g, err := aow.New(0, rand.NewPCG(0xcafe, 0xcafe), aow.ReferenceCatalog) // Use a fixed seed for reproducibility
 	if err != nil {
 		t.Fatalf("New() = %v, want nil", err)
 	}
@@ -32,7 +32,7 @@ func TestGenerator_RollD6(t *testing.T) {
 }
 
 func TestGenerator_RollD10(t *testing.T) {
-	g, err := aow.New(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
+	g, err := aow.New(0, rand.NewPCG(0xcafe, 0xcafe), aow.ReferenceCatalog) // Use a fixed seed for reproducibility
 	if err != nil {
 		t.Fatalf("New() = %v, want nil", err)
 	}
@@ -55,7 +55,7 @@ func TestGenerator_RollD10(t *testing.T) {
 }
 
 func TestGenerator_RollPercentile(t *testing.T) {
-	g, err := aow.New(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
+	g, err := aow.New(0, rand.NewPCG(0xcafe, 0xcafe), aow.ReferenceCatalog) // Use a fixed seed for reproducibility
 	if err != nil {
 		t.Fatalf("New() = %v, want nil", err)
 	}
@@ -69,7 +69,7 @@ func TestGenerator_RollPercentile(t *testing.T) {
 }
 
 func TestGenerator_Vary5pct(t *testing.T) {
-	g, err := aow.New(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
+	g, err := aow.New(0, rand.NewPCG(0xcafe, 0xcafe), aow.ReferenceCatalog) // Use a fixed seed for reproducibility
 	if err != nil {
 		t.Fatalf("New() = %v, want nil", err)
 	}
@@ -84,7 +84,7 @@ func TestGenerator_Vary5pct(t *testing.T) {
 }
 
 func TestGenerator_Vary10pct(t *testing.T) {
-	g, err := aow.New(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
+	g, err := aow.New(0, rand.NewPCG(0xcafe, 0xcafe), aow.ReferenceCatalog) // Use a fixed seed for reproducibility
 	if err != nil {
 		t.Fatalf("New() = %v, want nil", err)
 	}

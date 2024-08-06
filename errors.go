@@ -9,5 +9,7 @@ type Error string
 func (e Error) Error() string { return string(e) }
 
 const (
-	ErrPRNGNil = Error("PRNG cannot be nil")
+	ErrNeighborhoodOffsetTooSmall = Error("galactic neighborhood offset too small")
+	ErrNeighborhoodOffsetTooLarge = Error("galactic neighborhood offset too large")
+	ErrPRNGNil                    = Error("PRNG cannot be nil")
 )
