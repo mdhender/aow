@@ -10,12 +10,12 @@ import (
 )
 
 var (
-	version = semver.Version{Major: 0, Minor: 0, Patch: 2}
+	version = semver.Version{Major: 0, Minor: 0, Patch: 3}
 )
 
 // Generator is the structure that manages the settings for the generator.
 type Generator struct {
-	prng    *rand.Rand
+	prng    PRNG
 	catalog Catalog_e // the type of catalog used to generate the star systems
 	pm      PopulationModel
 }
@@ -43,7 +43,7 @@ func New(n int, prng rand.Source, cat Catalog_e, options ...Option) (*Generator,
 		return nil, ErrPRNGNil
 	}
 	g := &Generator{
-		prng: rand.New(prng),
+		prng: PRNG{Rand: rand.New(prng)},
 	}
 	for _, option := range options {
 		if err := option(g); err != nil {
