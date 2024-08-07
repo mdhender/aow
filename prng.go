@@ -2,7 +2,26 @@
 
 package aow
 
-import "math/rand/v2"
+import (
+	"math"
+	"math/rand/v2"
+)
+
+func (g *Generator) GenXYZ(minRadius, maxRadius float64) (float64, float64, float64) {
+	// generate a random radius within the zone's bounds
+	r := minRadius + rand.Float64()*(maxRadius-minRadius)
+
+	// generate a random position for the star system using random angles for spherical coordinates
+	theta := rand.Float64() * 2 * math.Pi  // 0 to 2π
+	phi := math.Acos(2*rand.Float64() - 1) // 0 to π
+
+	// convert spherical coordinates to Cartesian coordinates
+	x := r * math.Sin(phi) * math.Cos(theta)
+	y := r * math.Sin(phi) * math.Sin(theta)
+	z := r * math.Cos(phi)
+
+	return x, y, z
+}
 
 // RollD6 rolls n six-sided dice and returns the sum as a float64.
 func (g *Generator) RollD6(n int) float64 {
@@ -12,6 +31,11 @@ func (g *Generator) RollD6(n int) float64 {
 // RollD10 rolls n ten-sided dice and returns the sum as a float64.
 func (g *Generator) RollD10(n int) float64 {
 	return g.prng.RollD10(n)
+}
+
+// RollD100 rolls 100-sided dice and returns the sum as an int.
+func (g *Generator) RollD100() int {
+	return g.prng.RollD100()
 }
 
 // RollPercentile generates a random float64 value in the range [0.0, 1.0).
@@ -40,6 +64,10 @@ func NewPRNG(prng rand.Source) PRNG {
 	return PRNG{
 		Rand: rand.New(prng),
 	}
+}
+
+func (p PRNG) FlipCoin() bool {
+	return p.IntN(2) == 0
 }
 
 // RollD6 rolls n six-sided dice and returns the sum as a float64.
@@ -72,6 +100,10 @@ func (p PRNG) RollD10(n int) float64 {
 	return float64(result)
 }
 
+func (p PRNG) RollD100() int {
+	return p.IntN(100) + 1
+}
+
 // RollPercentile generates a random float64 value in the range [0.0, 1.0).
 // This can be used to represent a random percentile.
 // Returns:
@@ -98,4 +130,18 @@ func (p PRNG) Vary5pct(f float64) float64 {
 //   - A float64 value that is within ±10% of the input value
 func (p PRNG) Vary10pct(f float64) float64 {
 	return f * (0.86 + p.RollD6(4)/100.0)
+}
+
+func (p PRNG) GenXYZ() (float64, float64, float64) {
+	x, y, z := p.Float64(), p.Float64(), p.Float64()
+	if p.FlipCoin() {
+		x = -x
+	}
+	if p.FlipCoin() {
+		y = -y
+	}
+	if p.FlipCoin() {
+		z = -z
+	}
+	return x, y, z
 }
