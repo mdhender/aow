@@ -50,6 +50,8 @@ func PopulationModelForSolLikeNeighborhood(n int, tweak float64) PopulationModel
 	}
 	// the formula from p24 of the book
 	pm.Volume = float64(n) * cubicParsecsPerStarSystem
+	// derive the radius from the volume
+	pm.Radius = math.Ceil(math.Cbrt((3 * pm.Volume) / (4 * math.Pi)))
 	return pm
 }
 
@@ -77,13 +79,20 @@ func PopulationModelForOtherNeighborhoods(n int, r, h float64, tweak float64) Po
 	}
 	// the formula from p24 of the book
 	pm.Volume = float64(n) * cubicParsecsPerStarSystem
+	// derive the radius from the volume
+	pm.Radius = math.Pow((3*pm.Volume)/(4*math.Pi), 1.0/3.0)
 	return pm
 }
 
 type PopulationModel_t struct {
-	YoungPopulationI, IntermediatePopulationI, OldPopulationI, DiskPopulationII, HaloPopulationII populationModel_t
-	CombinedDensity                                                                               float64
-	Volume                                                                                        float64 // volume of the population in cubic parsecs
+	Radius                  float64 // radius, in parsecs
+	Volume                  float64 // volume of the population in cubic parsecs
+	YoungPopulationI        populationModel_t
+	IntermediatePopulationI populationModel_t
+	OldPopulationI          populationModel_t
+	DiskPopulationII        populationModel_t
+	HaloPopulationII        populationModel_t
+	CombinedDensity         float64
 }
 
 type populationModel_t struct {

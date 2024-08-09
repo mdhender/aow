@@ -12,7 +12,7 @@ import (
 
 func main() {
 	started := time.Now()
-	if err := run(false); err != nil {
+	if err := run(true); err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("Bob took %s", time.Since(started))
@@ -27,21 +27,25 @@ func run(addCluster bool) error {
 	}
 	log.Printf("g: %+v", g)
 
+	var origin aow.Coordinates
+
 	err = g.BackgroundPopulation()
 	if err != nil {
 		return err
 	}
-	log.Printf("g: %d star systems, %f radius", len(g.Catalog), g.Radius)
+	log.Printf("g: %d star systems, %f radius", g.Catalog.Length(), g.Catalog.Radius)
 	if addCluster {
-		x, y, z := g.GenXYZ(g.Radius*2/3, g.Radius)
-		err = g.OpenCluster(x, y, z)
+		clusterCenter := g.GenZonedXYZ(0.77, 0.89)
+		log.Printf("x %g y %g z %g r %g %8.4f\n", clusterCenter.X, clusterCenter.Y, clusterCenter.Z, g.Radius, origin.DistanceTo(clusterCenter))
+		clusterCatalog, err := g.OpenCluster(clusterCenter)
 		if err != nil {
 			return err
 		}
+		g.Catalog.Merge(clusterCatalog, clusterCenter)
 	}
-	g.SortCatalog()
-	for n, ss := range g.Catalog {
-		log.Printf("%4d: ss %+v", n+1, *ss)
+	g.Catalog.SortByDistance(origin)
+	for n, ss := range g.Catalog.StarSystems {
+		log.Printf("%4d: ss pop %v age %6.2f delta %8.4f %s\n", n+1, ss.Population, ss.Age, origin.DistanceTo(ss.Coordinates), ss.Coordinates)
 	}
 
 	return nil

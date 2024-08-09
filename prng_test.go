@@ -60,9 +60,9 @@ func TestPRNG_Vary5pct(t *testing.T) {
 	p := aow.NewPRNG(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
 	minp, val, maxp := 0.95*10_000, 10_000.0, 1.05*10_000
 	for n := 0; n < 1_000; n++ {
-		result := p.Vary5pct(val)
+		result := p.Vary5Pct(val)
 		if result < minp || result > maxp {
-			t.Errorf("Vary5pct(%f) = %f, want between %f and %f", val, result, minp, maxp)
+			t.Errorf("Vary5Pct(%f) = %f, want between %f and %f", val, result, minp, maxp)
 		}
 	}
 }
@@ -71,9 +71,9 @@ func TestPRNG_Vary10pct(t *testing.T) {
 	p := aow.NewPRNG(rand.NewPCG(0xcafe, 0xcafe)) // Use a fixed seed for reproducibility
 	minp, val, maxp := 0.90*10_000, 10_000.0, 1.10*10_000
 	for n := 0; n < 1_000; n++ {
-		result := p.Vary10pct(val)
+		result := p.Vary10Pct(val)
 		if result < minp || result > maxp {
-			t.Errorf("Vary10pct(%f) = %f, want between %f and %f", val, result, minp, maxp)
+			t.Errorf("Vary10Pct(%f) = %f, want between %f and %f", val, result, minp, maxp)
 		}
 	}
 }
